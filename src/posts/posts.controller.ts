@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete, Body, Patch } from '@nestjs/common';
 import { Request } from 'express';
 import { create } from 'domain';
 import { PostsService } from './posts.service';
+import { PostType } from './post.model';
+import { CreatePostDto } from './dto/create-task.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -9,22 +11,30 @@ export class PostsController {
   constructor(private postService: PostsService) {}
 
   @Get()
-  findAll(): string {
-    return 'Find all posts';
+  findAllPosts(): PostType[] {
+    return this.postService.getAllPosts();
   }
 
-  @Get(':id')
+  @Get('/:id')
   findOne(@Param('id') id: string) {
-    return `This action returns a #${ id } post`;
+    return this.postService.getPostById(id);
   }
 
   @Post()
-  create(): string {
-    return 'This action adds a new cat';
+  createPost(@Body() createPostDto: CreatePostDto ): PostType {
+    return this.postService.createPost(createPostDto)
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   delete(@Param('id') id: string) {
-    return `This action removes a #${ id } post`;
+    return this.postService.deletePost(id);
+  }
+
+  @Patch('/:id')
+  updatePost(
+    @Param('id') id: string,
+    @Body() createPostDto: CreatePostDto
+  ) {
+    return this.postService.updatePost(id, createPostDto);
   }
 }
