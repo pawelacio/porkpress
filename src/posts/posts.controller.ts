@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Param, Delete, Body, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete, Body, Patch, UsePipes, ValidationPipe, ParseIntPipe, Query } from '@nestjs/common';
 import { Request } from 'express';
 import { create } from 'domain';
 import { PostsService } from './posts.service';
-import { PostType } from './post.model';
-import { CreatePostDto } from './dto/create-task.dto';
+import { CreatePostDto } from './dto/create-post.dto';
+import { Post as PostType } from '../posts/post.entity';
+import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -11,30 +12,31 @@ export class PostsController {
   constructor(private postService: PostsService) {}
 
   @Get()
-  findAllPosts(): PostType[] {
-    return this.postService.getAllPosts();
+  getPosts(@Query(ValidationPipe) filterDto: GetPostsFilterDto): Promise<PostType[]> {
+    return this.postService.getPosts(filterDto);
   }
 
   @Get('/:id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<PostType> {
     return this.postService.getPostById(id);
   }
 
   @Post()
-  createPost(@Body() createPostDto: CreatePostDto ): PostType {
+  @UsePipes(ValidationPipe)
+  createPost(@Body() createPostDto: CreatePostDto ): Promise<PostType> {
     return this.postService.createPost(createPostDto)
   }
 
   @Delete('/:id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.postService.deletePost(id);
   }
 
   @Patch('/:id')
   updatePost(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() createPostDto: CreatePostDto
-  ) {
+  ): Promise<PostType> {
     return this.postService.updatePost(id, createPostDto);
   }
 }
