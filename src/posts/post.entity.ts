@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, VersionColumn } from "typeorm";
 import { PostStatus } from "./post-status.enum";
 
 @Entity()
@@ -19,11 +19,15 @@ export class Post extends BaseEntity {
   date: string;
 
   @Column()
-  modificationDate: string;
-
-  @Column()
   commentCount: number;
 
   @Column()
   status: PostStatus;
+
+  @UpdateDateColumn()
+  modificationDate: string;
+
+  @VersionColumn()
+  version: number;
+
 }

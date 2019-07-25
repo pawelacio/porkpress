@@ -8,8 +8,12 @@ import { GetPostsFilterDto } from "./dto/get-posts-filter.dto";
 export class PostRepository extends Repository<Post> {
   async getPosts(filterDto: GetPostsFilterDto): Promise<Post[]> {
     const { search } = filterDto;
-    console.log(search);
     const query = this.createQueryBuilder('post');
+
+    if ( search ) {
+      query.andWhere('(post.title LIKe :search OR post.content LIKE :search)', { search: `%${ search }%`})
+    }
+
     const posts = await query.getMany();
 
     return posts;
@@ -23,7 +27,6 @@ export class PostRepository extends Repository<Post> {
     post.author = author;
     post.content = content;
     post.date = date;
-    post.modificationDate = date;
     post.commentCount = 0;
     post.status = PostStatus.PUBLISH;
     await post.save();

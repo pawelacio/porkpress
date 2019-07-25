@@ -5,6 +5,7 @@ import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post as PostType } from '../posts/post.entity';
 import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -35,8 +36,8 @@ export class PostsController {
   @Patch('/:id')
   updatePost(
     @Param('id', ParseIntPipe) id: number,
-    @Body() createPostDto: CreatePostDto
+    @Body() updatePostDto: UpdatePostDto
   ): Promise<PostType> {
-    return this.postService.updatePost(id, createPostDto);
+    return this.postService.updatePost(id, updatePostDto);
   }
 }

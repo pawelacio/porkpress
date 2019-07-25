@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from './post.entity';
 import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
 import { PostType } from 'dist/posts/post.model';
+import { UpdatePostDto } from './dto/update-post.dto';
 @Injectable()
 export class PostsService {
 
@@ -14,13 +15,9 @@ export class PostsService {
     private postRepository: PostRepository
   ) {}
 
-    async getPosts(filterDto: GetPostsFilterDto): Promise<Post[]> {
-      return this.postRepository.getPosts(filterDto);
-    }
-
-  // getAllPosts(): PostType[] {
-  //   return this.posts;
-  // }
+  async getPosts(filterDto: GetPostsFilterDto): Promise<Post[]> {
+    return this.postRepository.getPosts(filterDto);
+  }
 
   async getPostById(id: number): Promise<Post> {
     const found = await this.postRepository.findOne(id);
@@ -40,8 +37,8 @@ export class PostsService {
     }
   }
 
-  async updatePost(id: number, createPostDto: CreatePostDto): Promise<Post> {
-    const { title, author, content, date } = createPostDto;
+  async updatePost(id: number, updatePostDto: UpdatePostDto): Promise<Post> {
+    const { title, author, content, date } = updatePostDto;
     const post = await this.getPostById(id);
 
     post.title = title;
