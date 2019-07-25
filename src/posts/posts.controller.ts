@@ -23,7 +23,6 @@ export class PostsController {
   }
 
   @Post()
-  @UsePipes(ValidationPipe)
   @UsePipes(new ValidationPipe())
   createPost(@Body() createPostDto: CreatePostDto ): Promise<PostType> {
     return this.postService.createPost(createPostDto)

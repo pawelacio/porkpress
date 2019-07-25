@@ -7,11 +7,15 @@ import { GetPostsFilterDto } from "./dto/get-posts-filter.dto";
 @EntityRepository(Post)
 export class PostRepository extends Repository<Post> {
   async getPosts(filterDto: GetPostsFilterDto): Promise<Post[]> {
-    const { search } = filterDto;
+    const { search, limit } = filterDto;
     const query = this.createQueryBuilder('post');
 
     if ( search ) {
-      query.andWhere('(post.title LIKe :search OR post.content LIKE :search)', { search: `%${ search }%`})
+      query.andWhere('(post.title LIKE :search OR post.content LIKE :search)', { search: `%${ search }%`})
+    }
+
+    if ( limit ) {
+      query.limit(limit);
     }
 
     const posts = await query.getMany();
