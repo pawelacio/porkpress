@@ -14,10 +14,10 @@ export class CategoriesController {
   //   return 'Dupa';
   // }
 
-  // @Get('/:id')
-  // findCategoryById() {
-
-  // }
+  @Get('/:id')
+  getCategoryById(@Param('id', ParseIntPipe) id: number) {
+    return this.categoryService.getCategoryById(id);
+  }
 
   @Post()
   @UsePipes(new ValidationPipe())
