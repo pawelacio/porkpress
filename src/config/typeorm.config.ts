@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Post } from '../posts/post.entity';
+import { Category } from '../categories/category.entity';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -10,7 +11,8 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: 'porkpress',
   entities: [
     // '../**/*.entity{.ts,.js}',
-    Post
+    Post,
+    Category
   ],
   synchronize: true,
 }
