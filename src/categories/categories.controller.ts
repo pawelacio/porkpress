@@ -3,6 +3,7 @@ import { CreatePostDto } from 'src/posts/dto/create-post.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { CategoriesService } from './categories.service';
 import { Category } from './category.entity';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('category')
 export class CategoriesController {
@@ -25,18 +26,18 @@ export class CategoriesController {
     return this.categoryService.createCategory(createCategoryDto);
   }
   
-  // @Delete('/:id')
-  // deleteCategory(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  @Delete('/:id')
+  deleteCategory(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.categoryService.deleteCategory(id);
+  }
 
-  // }
-
-  // @Patch('/:id')
-  // @UsePipes(new ValidationPipe())
-  // updateCategory(
-  //   @Param('id', ParseIntPipe) id: number,
-  //   @Body() updateCategory: UpdateCategoryDto
-  // ): Promise<Category> {
-    
-  // }
+  @Patch('/:id')
+  @UsePipes(new ValidationPipe())
+  updateCategory(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCategoryDto: UpdateCategoryDto
+  ): Promise<Category> {
+    return this.categoryService.updateCategory(id, updateCategoryDto);
+  }
 
 }

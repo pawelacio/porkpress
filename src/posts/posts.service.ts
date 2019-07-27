@@ -23,7 +23,7 @@ export class PostsService {
     const found = await this.postRepository.findOne(id);
 
     if (!found) {
-      throw new NotFoundException(`Task with id "${id}" not found`);
+      throw new NotFoundException(`Post with id "${id}" not found!`);
     }
 
     return found;
@@ -33,7 +33,7 @@ export class PostsService {
     const result = await this.postRepository.delete(id);
 
     if (result.affected === 0) {
-      throw new NotFoundException(`Task with id "${id}" not found`);
+      throw new NotFoundException(`Post with id "${id}" not found`);
     }
   }
 
