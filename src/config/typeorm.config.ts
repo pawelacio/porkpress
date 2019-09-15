@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Post } from '../posts/post.entity';
 import { Category } from '../categories/category.entity';
+import { User } from '../auth/user.entity';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -12,7 +13,8 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   entities: [
     // '../**/*.entity{.ts,.js}',
     Post,
-    Category
+    Category,
+    User
   ],
   synchronize: true,
 }
