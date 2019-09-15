@@ -5,6 +5,7 @@ import { CategoryRepository } from './categories.repository';
 import { Category } from './category.entity';
 import { Not } from 'typeorm';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { GetCategoriesFilterDto } from './dto/get-categories-filter.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -13,6 +14,10 @@ export class CategoriesService {
     @InjectRepository(CategoryRepository)
     private categoryRepository: CategoryRepository
   ) {}
+
+  async getCategories(filterCategoriesDto: GetCategoriesFilterDto) {
+    return this.categoryRepository.getCategories(filterCategoriesDto);
+  }
 
   async createCategory(createCategoryDto: CreateCategoryDto): Promise<Category> {
     return this.categoryRepository.createCategory(createCategoryDto);
