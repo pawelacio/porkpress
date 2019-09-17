@@ -7,6 +7,7 @@ import { Post } from './post.entity';
 import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
 import { PostType } from 'dist/posts/post.model';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { User } from '../auth/user.entity';
 @Injectable()
 export class PostsService {
 
@@ -51,7 +52,7 @@ export class PostsService {
     return post;
   }
 
-  async createPost(createPostDto: CreatePostDto): Promise<Post> {
-    return this.postRepository.createPost(createPostDto);
+  async createPost(createPostDto: CreatePostDto, user: User): Promise<Post> {
+    return this.postRepository.createPost(createPostDto, user);
   }
 }

@@ -1,5 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, VersionColumn } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, VersionColumn, ManyToMany, ManyToOne } from "typeorm";
 import { PostStatus } from "./post-status.enum";
+import { User } from '../auth/user.entity';
 
 @Entity()
 export class Post extends BaseEntity {
@@ -29,5 +30,8 @@ export class Post extends BaseEntity {
 
   @VersionColumn()
   version: number;
+
+  @ManyToOne(type => User, user => user.posts, { eager: false })
+  user: User;
 
 }

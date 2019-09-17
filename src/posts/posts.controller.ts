@@ -7,6 +7,8 @@ import { Post as PostType } from '../posts/post.entity';
 import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from '../auth/user.entity';
+import { GetUser } from '../auth/get-user.decorator';
 
 @Controller('posts')
 export class PostsController {
@@ -26,8 +28,11 @@ export class PostsController {
   @Post()
   @UseGuards(AuthGuard())
   @UsePipes(new ValidationPipe())
-  createPost(@Body() createPostDto: CreatePostDto ): Promise<PostType> {
-    return this.postService.createPost(createPostDto)
+  createPost(
+    @Body() createPostDto: CreatePostDto,
+    @GetUser() user: User,
+    ): Promise<PostType> {
+    return this.postService.createPost(createPostDto, user)
   }
 
   @Delete('/:id')
